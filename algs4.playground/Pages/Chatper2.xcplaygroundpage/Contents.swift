@@ -7,6 +7,7 @@ class SortExample {
         case selection
         case insertion
         case shell
+        case merge
     }
     /// 选择排序 找到最小的放到第一个位置，第二小的放在第二个位置以此类推
     private static func selectionSort<T: Comparable>(_ list: inout [T]) {
@@ -46,6 +47,37 @@ class SortExample {
         }
     }
     
+    private static func mergeSort<T: Comparable>(_ list: inout [T], lo: Int, hi: Int) {
+        func merge(_ list: inout[T], lo: Int, mid: Int, hi: Int) {
+            let mux = list
+            var j = lo, k = mid + 1
+            for i in lo ... hi {
+                if j > mid {
+                    list[i] = mux[k]
+                    k += 1
+                } else if k > hi {
+                    list[i] = mux[j]
+                    j += 1
+                }else if mux[j] < mux[k] {
+                    list[i] = mux[j]
+                    j += 1
+                } else {
+                    list[i] = mux[k]
+                    k += 1
+                }
+            }
+        }
+        if hi <= lo {
+            return
+        }
+        let mid = lo + (hi - lo) / 2
+        mergeSort(&list, lo: lo, hi: mid)
+        mergeSort(&list, lo: mid+1, hi: hi)
+        merge(&list, lo: lo, mid: mid, hi: hi)
+    }
+    
+    
+    
     public static func sort<T: Comparable>(_ list: inout [T], _ type: SortType) {
         switch type {
         case .insertion:
@@ -54,6 +86,8 @@ class SortExample {
             selectionSort(&list)
         case .shell:
             shellSort(&list)
+        case .merge:
+            mergeSort(&list, lo: 0, hi: list.count - 1)
         }
     }
     
@@ -66,12 +100,12 @@ class SortExample {
     }
 }
 
-var a = Array(0..<500).shuffled()
+var a = Array(0..<5000).shuffled()
 let startTime = CFAbsoluteTimeGetCurrent()
-SortExample.sort(&a, .insertion)
+SortExample.sort(&a, .merge)
 let endTime = CFAbsoluteTimeGetCurrent()
 debugPrint("代码执行时长：%f 毫秒", (endTime - startTime)*1000)
 
+print("排序：\(SortExample.isSort(a))")
 print(a)
-
 //: [Next](@next)
