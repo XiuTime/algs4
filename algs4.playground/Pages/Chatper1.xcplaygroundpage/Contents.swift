@@ -63,6 +63,26 @@ class Stack<Element> {
         return item
     }
 }
+extension Stack: Sequence {
+    class StackIterator: IteratorProtocol {
+        var head: Node?
+        init(head: Node?) {
+            self.head = head
+        }
+        func next() -> Element? {
+            if head == nil {
+                return nil
+            } else {
+                let item = head?.item
+                head = head?.next
+                return item
+            }
+        }
+    }
+    func makeIterator() -> StackIterator {
+        return StackIterator(head: first)
+    }
+}
 
 extension Stack {
     static func test() {
@@ -77,8 +97,8 @@ extension Stack {
         print("stack.size:\(stack.size)")
         print("stack.isEmpty:\(stack.isEmpty)")
         
-        while !stack.isEmpty {
-            print(stack.pop()!)
+        for (index, element) in stack.enumerated() {
+            print("\(index) = \(element)")
         }
     }
 }
@@ -99,10 +119,10 @@ class Queue<Element> {
         }
     }
     
-    var first: Node? = nil
-    var last: Node? = nil
+    private var first: Node? = nil
+    private var last: Node? = nil
     
-    var N: UInt = 0
+    private var N: UInt = 0
     
     var isEmpty: Bool {
         return N == 0
@@ -129,6 +149,30 @@ class Queue<Element> {
     }
 }
 
+extension Queue: Sequence {
+    class QueueIterator : IteratorProtocol {
+        typealias T = Element
+        var head: Node?
+        init(head: Node?) {
+            self.head = head
+        }
+        func next() -> T? {
+            if head == nil {
+                return nil
+            } else {
+                let item = head?.item
+                head = head?.next
+                return item
+            }
+        }
+    }
+    
+    typealias Iterator = QueueIterator
+    func makeIterator() -> Iterator {
+        return QueueIterator(head: first)
+    }
+}
+
 extension Queue {
     static func test() {
         let a = [1,2,3,4,5,6]
@@ -142,9 +186,13 @@ extension Queue {
         print("queue.size:\(queue.size)")
         print("queue.isEmpty:\(queue.isEmpty)")
         
-        while !queue.isEmpty {
-            print(queue.dequeue()!)
+//        while !queue.isEmpty {
+//            print(queue.dequeue()!)
+//        }
+        for (index, element) in queue.enumerated() {
+            print("\(index) = \(element)")
         }
     }
 }
+
 
