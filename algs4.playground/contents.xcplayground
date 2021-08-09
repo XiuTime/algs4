@@ -3,5 +3,6 @@
     <pages>
         <page name='Chatper1'/>
         <page name='Chatper2'/>
+        <page name='Chatper3'/>
     </pages>
 </playground>

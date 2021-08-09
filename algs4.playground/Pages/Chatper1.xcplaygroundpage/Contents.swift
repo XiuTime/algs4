@@ -196,3 +196,81 @@ extension Queue {
 }
 
 
+
+class MaxPQ {
+    var pq: [Int]
+    private var N = 0
+    init(max: Int) {
+        pq = [Int](repeating: 0, count: max + 1)
+        
+    }
+    
+//        init(a : [T]) {
+//
+//        }
+    
+    func insert(v: Int) {
+        N += 1
+        pq[N] = v
+        swim(k: N)
+    }
+    
+//        func max() -> T {
+//
+//        }
+    
+    func delMax() -> Int {
+        let max = pq[1]
+        pq.swapAt(1, N)
+        N -= 1
+        pq.removeLast()
+        sink(k: 1)
+        return max
+    }
+    
+    func isEmpty() -> Bool {
+        return N == 0
+    }
+    
+    func size() -> Int {
+        return N
+    }
+    
+    func swim(k: Int) {
+        var k = k
+        while k > 1 && pq[k] > pq[k/2] {
+            pq.swapAt(k, k/2)
+            k /= 2;
+        }
+    }
+    
+    func sink(k: Int) {
+        var k = k
+        while 2*k < N {
+            var j = 2*k+1
+            if j < N && pq[j] < pq[j-1] {
+                j -= 1
+            }
+            
+            if pq[k] > pq[j] {
+                break
+            }
+            pq.swapAt(k, j)
+            k = j
+        }
+    }
+}
+
+let maxpq = MaxPQ(max: 10)
+for i in stride(from: 0, to: 10, by: 1) {
+    maxpq.insert(v: i)
+}
+print(maxpq.pq)
+maxpq.delMax()
+print(maxpq.pq)
+maxpq.delMax()
+
+
+
+print(maxpq.pq)
+
