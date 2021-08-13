@@ -53,6 +53,14 @@ class BST<Key: Comparable, Value> {
         return select(node: root, index: index)?.key
     }
     
+    public func deleteMin() {
+        root = deleteMin(node: root)
+    }
+    
+    public func delete(key: Key) {
+        root = delete(node: root, key: key)
+    }
+    
     private var root: Node?
     
     private func size(node: Node?) -> Int {
@@ -150,6 +158,44 @@ class BST<Key: Comparable, Value> {
             return node
         }
     }
+    private func deleteMin(node: Node?) -> Node? {
+        guard let left = node?.left else {
+            return node?.right
+        }
+        node?.left = deleteMin(node: left)
+        node?.N = size(node: left) + size(node: node?.right) + 1
+        return node
+    }
+    
+    private func delete(node: Node?, key: Key) -> Node? {
+        guard var node = node else {return nil}
+        if key < node.key {
+            node.left = delete(node: node.left, key: key)
+        }
+        else if key > node.key {
+            node.right = delete(node: node.right, key: key)
+        }
+        else {
+            if node.right == nil {return node.left}
+            if node.left == nil {return node.right}
+            if let t = min(node: node.right) {
+                t.right = deleteMin(node: node.right)
+                t.left = node.left
+                node = t
+            }
+        }
+        node.N = size(node: node.left) + size(node: node.right) + 1
+        return node
+    }
+    public func printM() {
+        printM(node: root)
+    }
+    private func printM(node: Node?) {
+        guard let node = node else {return}
+        printM(node: node.left)
+        print(node.key)
+        printM(node: node.right)
+    }
 }
 
 let bst = BST<Int, String>()
@@ -157,11 +203,32 @@ let a = [(2,"A"),(3,"B"),(4,"C"),(5,"D"),(6,"E"),(7,"F"),(8,"G"),(9,"H"),(10,"I"
 for t in a {
     bst[t.0] = t.1
 }
-print(bst[10])
-print(bst.size)
-print(bst.min)
-print(bst.max)
-print(bst.floor(key: 11))
-print(bst.ceiling(key: 11))
-print(bst.select(index:0))
+
+
+
+class RBT<Key: Comparable, Value> {
+    
+    private let RED = true
+    private let BLACK = false
+    
+    private class Node {
+        var key: Key
+        var value: Value?
+        var left: Node?
+        var right: Node?
+        var N: Int
+        var color: Bool
+        init(key: Key, value: Value?, n: Int, color: Bool) {
+            self.key = key
+            self.value = value
+            self.N = n
+            self.color = color
+        }
+    }
+    
+    private func isRed(node: Node?) -> Bool {
+        guard let node = node else {return false}
+        return node.color == RED
+    }
+}
 //: [Next](@next)

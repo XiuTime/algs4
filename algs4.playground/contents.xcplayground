@@ -4,5 +4,7 @@
         <page name='Chatper1'/>
         <page name='Chatper2'/>
         <page name='Chatper3'/>
+        <page name='Chatper4'/>
+        <page name='Test'/>
     </pages>
 </playground>
