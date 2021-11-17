@@ -157,18 +157,21 @@ class Tree {
     
 }
 
-let tree = Tree()
-let a = [4,2,6,1,3,5,7,8,9]
-for value in a {
-    tree.add(value: value)
-}
+//let tree = Tree()
+//let a = [4,2,6,1,3,5,7,8,9]
+//for value in a {
+//    tree.add(value: value)
+//}
+//
+//tree.print(type: .dfs1(true))
+//tree.print(type: .dfs1(false))
+//tree.print(type: .dfs2(true))
+//tree.print(type: .dfs2(false))
+//tree.print(type: .dfs3(true))
+//tree.print(type: .dfs3(false))
+//tree.print(type: .bfs)
 
-tree.print(type: .dfs1(true))
-tree.print(type: .dfs1(false))
-tree.print(type: .dfs2(true))
-tree.print(type: .dfs2(false))
-tree.print(type: .dfs3(true))
-tree.print(type: .dfs3(false))
-tree.print(type: .bfs)
 
 //: [Next](@next)
+
+
